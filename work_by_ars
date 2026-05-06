@@ -1,0 +1,55 @@
+class account:
+    def __init__(self, name, balance = 0):
+        self.account_holder = name
+        self.balance = balance
+        
+
+    def deposit(self):
+        try:
+            amount = int(input('какую сумму вы хотите внести? ---> '))
+        except:
+            print('введите корректную сумму')
+            return
+        if amount <= 0:
+            print('минимальная сумма пополнения 1 рубль!')
+        else:
+            self.balance += amount
+            print(f'готово! Ваш баланс: {self.balance} рублей.')
+
+
+
+
+    def withdraw(self):
+        try:
+            amount = int(input('какую сумму вы хотите снять? ---> '))
+        except:
+            print('введите корректную сумму')
+            return
+        if amount <= 0:
+            print('минимальная сумма для снятия 1 рубль!')
+        elif self.balance - amount < 0:
+            print('на балансе не хватает средств')
+            return
+        else:
+            self.balance -= amount
+        print(f'готово! Остаток баланса: {self.balance} рублей.')
+        
+
+
+
+    def get_balance(self):
+        print(f'Ваш баланс: {self.balance} рублей.')
+
+
+    def __str__(self):
+        return f'Владелец счёта {self.account_holder}, Баланс счёта: {self.balance} рублей.'
+
+acc = account('петр')
+
+acc.deposit()
+acc.withdraw()
+acc.get_balance()
+
+print(acc)
+
+
