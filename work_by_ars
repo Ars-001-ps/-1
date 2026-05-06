@@ -35,21 +35,39 @@ class account:
         print(f'готово! Остаток баланса: {self.balance} рублей.')
         
 
-
-
     def get_balance(self):
         print(f'Ваш баланс: {self.balance} рублей.')
 
 
     def __str__(self):
         return f'Владелец счёта {self.account_holder}, Баланс счёта: {self.balance} рублей.'
+    
+
+
+
+class SavingAccount(account):
+    def __init__(self, name, interest_rate, balance = 0):
+        super().__init__(name, balance)
+        self.interest_rate = interest_rate
+
+    def add_interest(self):
+        interest = self.balance * self.interest_rate / 100
+        self.balance += interest
+        print(f'На ваш баланс добавлено {interest}. Ваш счёт {self.balance} рублей.')
+
+
+            
 
 acc = account('петр')
-
+sa = SavingAccount('иван', 10)
 acc.deposit()
 acc.withdraw()
 acc.get_balance()
 
+sa.deposit()
+sa.add_interest
+
 print(acc)
+print(sa)
 
 
