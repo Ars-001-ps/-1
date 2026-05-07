@@ -1,7 +1,7 @@
 class account:
     def __init__(self, name, balance = 0):
         self.account_holder = name
-        self.balance = balance
+        self.__balance = balance
         
 
     def deposit(self):
@@ -13,9 +13,9 @@ class account:
         if amount <= 0:
             print('минимальная сумма пополнения 1 рубль!')
         else:
-            self.balance += amount
-            print(f'готово! Ваш баланс: {self.balance} рублей.')
-
+            self.__balance += amount
+            print(f'готово! Ваш баланс: {self.__balance} рублей.')
+ 
 
 
 
@@ -27,20 +27,20 @@ class account:
             return
         if amount <= 0:
             print('минимальная сумма для снятия 1 рубль!')
-        elif self.balance - amount < 0:
+        elif self.__balance - amount < 0:
             print('на балансе не хватает средств')
             return
         else:
-            self.balance -= amount
-        print(f'готово! Остаток баланса: {self.balance} рублей.')
+            self.__balance -= amount
+        print(f'готово! Остаток баланса: {self.__balance} рублей.')
         
 
     def get_balance(self):
-        print(f'Ваш баланс: {self.balance} рублей.')
+        print(f'Ваш баланс: {self.__balance} рублей.')
 
 
     def __str__(self):
-        return f'Владелец счёта {self.account_holder}, Баланс счёта: {self.balance} рублей.'
+        return f'Владелец счёта {self.account_holder}, Баланс счёта: {self.__balance} рублей.'
     
 
 
@@ -56,18 +56,59 @@ class SavingAccount(account):
         print(f'На ваш баланс добавлено {interest}. Ваш счёт {self.balance} рублей.')
 
 
-            
 
+
+class BusinessAccount(account):
+    def __init__(self, name, balance = 0, overdraft_limit = 10000):
+        super().__init__(name, balance)
+        self.OvLim = overdraft_limit
+
+    def withdraw(self):
+        try:
+            amount = int(input('какую сумму вы хотите снять? ---> '))
+        except:
+            print('введите корректную сумму')
+            return
+
+        if amount <= 0:
+            print('минимальная сумма для снятия 1 рубль!')
+            return
+
+        elif amount <= self.balance:
+            self.balance -= amount
+            print(f'готово! Остаток баланса: {self.balance} рублей.')
+
+        elif amount <= self.balance + self.OvLim:
+            OvBal = amount - self.balance
+            self.balance = 0
+            self.OvLim -= OvBal
+
+            print(f'Готово! При снятии был использован овердрафт ({OvBal} рублей.) Остаток овердрафта {self.OvLim}.')
+
+        else:
+            total_amount = self.balance + self.OvLim
+            print(f'сумма превышает овердрафт. доступная сумма для снятия с учетом овердрафта {total_amount} рублей.')
+            return
+
+            
+ba = BusinessAccount('Витя')
 acc = account('петр')
 sa = SavingAccount('иван', 10)
-acc.deposit()
-acc.withdraw()
-acc.get_balance()
+# acc.deposit()
+# acc.withdraw()
+# acc.get_balance()
 
-sa.deposit()
-sa.add_interest
-
+# sa.deposit()
+# sa.add_interest
+ba.deposit()
+ba.withdraw()
+ba.withdraw()
+ba.withdraw()
+ba.__str__()
 print(acc)
 print(sa)
+print(ba)
+
+
 
 
